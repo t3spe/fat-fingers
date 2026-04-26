@@ -30,10 +30,10 @@ Or paste AI-sounding text into a normal message and ask Claude to humanize it �
 
 ## What's inside
 
-- [`skills/humanize/SKILL.md`](./skills/humanize/SKILL.md) — operational rules (5 rewrite steps + 13-item self-audit)
-- [`skills/humanize/examples.md`](./skills/humanize/examples.md) — 10 worked before/after pairs (incl. yellow-flag restraint and Tier 3 density)
-- [`skills/humanize/reference.md`](./skills/humanize/reference.md) — research grounding (Kobak 2025, the convergence model, extended word inventory, voice/specificity prescription)
+- [`skills/humanize/SKILL.md`](./skills/humanize/SKILL.md) — operational rules (5 rewrite steps + 13-item self-audit, including self-reference escape hatch)
+- [`skills/humanize/examples.md`](./skills/humanize/examples.md) — 13 worked before/after pairs (incl. yellow-flag restraint, Tier 3 density, novelty inflation, promotional language, formatting tics)
+- [`skills/humanize/reference.md`](./skills/humanize/reference.md) — research grounding (Kobak 2025, Coevolution arms race, phrase-frequency multipliers, statistical metric ranges, sycophancy causality, extended word inventory, voice/specificity prescription)
 
 ## Version
 
-`0.3.0` — see [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).
+`0.4.0` — see [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).

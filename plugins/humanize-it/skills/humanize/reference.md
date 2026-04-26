@@ -37,6 +37,42 @@ By 2024, ~13.5% of biomedical abstracts (≈200,000 papers) showed signs of LLM 
 
 **Caveat (Juzek & Ward 2024):** most overused LLM words were already increasing in human writing before ChatGPT. LLMs accelerate existing trends rather than inventing them. Once "delve" was publicly outed as an AI marker, frequency dropped — but other markers (e.g., "significant") kept rising. Treat the lists as living, not fixed.
 
+**Bifurcated adaptation (Human-LLM Coevolution, arXiv 2025).** The arms race is asymmetric. Words that *dropped* after public exposure: "intricate," "realm," "pivotal," "showcasing" (all began declining March-April 2024 once researchers flagged them). Words that *kept rising* despite exposure: "significant," "additionally" — common enough that their presence alone doesn't trigger suspicion. Practical implication: Tier 1 lists are not stable across years; the skill should periodically retire dated tells and add emerging ones.
+
+---
+
+## Phrase-frequency multipliers (ai-text-humanizer.com)
+
+Multi-word phrases are stronger tells than single words because the combinatorial frequency is more anomalous. Above-baseline multipliers from corpus comparisons:
+
+| Phrase | Frequency multiple |
+|---|---|
+| "Notable works include / Notable figures" | ~120× |
+| "In today's fast-paced world" | ~107× |
+| "Aims to explore" | ~50× |
+| "Aligns" (as verb) | ~16× |
+| "Surpassing" | ~12× |
+| "Tragically" (out of crisis context) | ~11× |
+| "Impacting / Making an impact" | ~11× |
+
+Treat these phrases as Tier 1 equivalents — one occurrence is dispositive.
+
+---
+
+## Statistical metric ranges (brandonwise/humanizer)
+
+Concrete targets that distinguish human and AI text. The skill can't compute these mid-rewrite, but they're useful as Pass 2 sanity checks ("does this *feel* in the human range?").
+
+| Metric | Human | AI |
+|---|---|---|
+| Burstiness (sentence-length variation) | 0.5–1.0 | 0.1–0.3 |
+| Type-token ratio (vocabulary diversity) | 0.5–0.7 | 0.3–0.5 |
+| Sentence-length CoV | 0.4–0.8 | 0.15–0.35 |
+| Trigram repetition | < 0.05 | > 0.10 |
+| Flesch-Kincaid grade level | varies widely | consistently 8–12 |
+
+If a rewrite ends up with all sentences in a tight band, the skill should deliberately break the uniformity even if no individual sentence triggers another rule.
+
 ---
 
 ## Extended word inventory by category
@@ -99,12 +135,23 @@ Two implications for the humanize skill:
 
 ---
 
-## Sycophancy data (SycEval 2025)
+## Sycophancy: data, causality, variants
 
+**Prevalence (SycEval 2025).**
 - 58% of LLM responses across tested models contain sycophantic content.
 - 78.5% persistence rate — once a model starts being sycophantic, it stays sycophantic across the conversation.
-- The forbidden-first-word list in SKILL.md ("Great," "Certainly," "Okay," "Sure," "Absolutely," "Of course") catches the most common openers.
-- Anti-sycophancy framing trick: present the work as someone else's, or use a question rather than a statement. Removes the model's urge to please.
+
+**Causality (Sean Goedecke, 2024).** Two underdiscussed drivers:
+- *Memory-driven sycophancy.* Once ChatGPT gained memory features, surfacing critical assessments of users' personalities triggered defensiveness ("Has narcissistic tendencies" → "No I don't!"). Engineers responded with extreme sycophancy RLHF to hide critical reads. So sycophancy isn't just thumbs-up gaming — it's also damage control.
+- *Arena benchmark gaming.* Models are deliberately tuned to win anonymous comparison contests, which reward user-pleasing language. The optimization target itself selects for sycophancy.
+
+**Variants beyond opening flattery:**
+- *Closing teasers* — ending responses with manipulative engagement-bait suffixes: "I could go deeper if you want," "Let me know if you'd like more on X." Distinct from inspirational closers; this is a chat-trained tic. Cut.
+- *Vicious cycle* — once a user is validated by an inflated self-assessment, real-world friction feels worse, pushing them back to the model. The skill can't fix this dynamic, but rewrites should avoid generating new sycophantic reassurance.
+
+**Operational rules already in SKILL.md:**
+- Forbidden first words ("Great," "Certainly," "Okay," "Sure," "Absolutely," "Of course") — catches the most common openers.
+- Anti-sycophancy framing trick (in plugin README): present the work as someone else's, or use a question rather than a statement.
 
 ---
 
@@ -132,3 +179,10 @@ For practitioners who want to go deeper:
 - **Juzek & Ward 2024** — "Why Does ChatGPT 'Delve' So Much?" on pre-existing trends.
 - **HxHippy/DeSlop** — open-source Chrome extension, 600+ patterns, runs locally.
 - **Charlie Guo, "The Field Guide to AI Slop"** (*Artificial Ignorance*, Oct 2025) — sources the unearned-profundity, generic-metaphor, and Unicode-formatting rules in SKILL.md; also the "cultivate specificity" positive prescription.
+- **conorbronsdon/avoid-ai-writing v3.3.1** — sources novelty inflation, emotional flatline, false ranges, false concession, parenthetical hedging, inline-header lists, title-case headings, "worth [verb]ing," promotional language, acknowledgment loops, reasoning chain artifacts, numbered list inflation, and the patch-vs-rewrite threshold.
+- **stephenturner/skill-deslop** — sources magic adverbs ("quietly"), invented concept labels, and the read-aloud test framing.
+- **NousResearch/autonovel ANTI-SLOP.md** — sources the "false-depth pattern" (restate problem in fancier words → list obvious considerations → vague call to action) and structural symmetry observations.
+- **brandonwise/humanizer** — sources the statistical metric ranges (burstiness, TTR, sentence CoV) and the composite scoring approach.
+- **Sean Goedecke, "Sycophancy is the first LLM dark pattern"** — sources memory-driven sycophancy, arena gaming, and closing-teaser variant.
+- **Human-LLM Coevolution** (arXiv 2502.09606) — sources the bifurcated-adaptation finding (intricate/realm/pivotal dropped; significant/additionally rose).
+- **ai-text-humanizer.com phrase catalog** — sources the phrase-frequency multipliers table.

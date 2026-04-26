@@ -129,3 +129,49 @@ If the user follows up with "rewrite anyway," produce the compressed-but-still-e
 > The migration completed successfully. Data integrity checks passed and the rollback procedure was tested. The new indexes are performing as expected, and query latency dropped 30%. We finished two days ahead of schedule.
 
 *Rules applied:* Tier 3 density (six transition-words in six sentences — `furthermore`, `moreover`, `additionally`, `notably`, `ultimately` — each individually fine, but a pile-up at this density is a tell; threshold is 3+ per paragraph). Sentence-rhythm variance (six uniform-length sentences collapsed into four of varying length). Note that no Tier 1 or 2 words were present and the content was already concrete — the *only* slop signal here was the transition density. This is the case Tier 3 is designed for.
+
+---
+
+### Example 11 — novelty inflation + invented concept labels
+
+**Before**
+> In a recent talk, Sarah introduced a fascinating term: "the visibility paradox." She coined this concept to describe a failure mode nobody's naming — the more public a project becomes, the harder it is to actually ship. It's the insight everyone's missing about modern software development.
+
+**After**
+> In a recent talk, Sarah described how publicly-tracked projects ship slower than quiet ones. She gave the Linux kernel as an example: small subsystem maintainers move faster than the headline-grabbing rewrites.
+
+*Rules applied:* novelty inflation ("introduced a fascinating term," "coined this concept," "a failure mode nobody's naming," "the insight everyone's missing" — all flatter the subject and risk being factually wrong; the visibility/attention tradeoff has been written about for decades); invented concept label ("the visibility paradox" — there's no canonical term by that name, slapping "paradox" on a tradeoff is the trick). Replaced with what Sarah actually argued and a concrete example.
+
+---
+
+### Example 12 — promotional language + emotional flatline
+
+**Before**
+> Nestled within the breathtaking foothills of the Sierra Nevada, this thriving town has become a vibrant hub for outdoor enthusiasts. What surprised me most was the cycling community — I was fascinated to discover dozens of weekly group rides organized by passionate locals.
+
+**After**
+> The town sits at the base of the Sierra Nevada and has a large outdoor scene. The cycling community runs about 20 weekly group rides, mostly organized through a single Strava club with around 800 members.
+
+*Rules applied:* promotional language ("nestled," "breathtaking," "thriving," "vibrant hub" — tourism-brochure prose stripped to plain description); emotional flatline ("What surprised me most," "I was fascinated to discover" — both AI tells claiming feeling without earning it). Replaced with concrete numbers (20 rides, 800 members) and a named mechanism (Strava club).
+
+---
+
+### Example 13 — inline-header lists + title case + numbered list inflation
+
+**Before**
+> ## Strategic Negotiations And Key Partnerships
+>
+> Here are the **Five Key Takeaways** from our quarterly review:
+>
+> - **Performance:** Performance improved by 15% across the board.
+> - **Customer Satisfaction:** Customer satisfaction reached new highs.
+> - **Team Growth:** Team growth accelerated significantly.
+> - **Product Innovation:** Product innovation drove new revenue streams.
+> - **Market Position:** Market position strengthened in key segments.
+
+**After**
+> ## Q3 review
+>
+> Performance improved 15% across the board. NPS hit 62, up from 51 last quarter. Headcount grew from 40 to 53 — mostly engineering. Two new product lines launched and brought in $2.1M ARR. We took the #2 share position in the SMB segment.
+
+*Rules applied:* title case in subheading ("Strategic Negotiations And Key Partnerships" → sentence case "Q3 review"); numbered list inflation ("Five Key Takeaways" — pre-committed to a count); inline-header lists ("**Performance:** Performance improved…" — bolded keyword that just repeats in the prose); generic adjectives stripped ("significantly," "new highs," "key segments"); specificity injection (15%, 62, 51, 40→53, $2.1M ARR — every vague claim replaced with a number).

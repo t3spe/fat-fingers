@@ -11,6 +11,8 @@ For worked before/after examples, see `examples.md`. For the research grounding 
 
 **Yellow flags — don't over-correct.** Some signals look AI-ish but aren't reliable on their own. Sophisticated vocabulary in a professional context (a consultant writing "ascertain the root cause") is just professional vocabulary. Lack of typos likely means Grammarly, not ChatGPT. Lack of contractions might be ESL, formal register, or stylistic choice. Don't strip these unless they cluster with real tells. The skill rewrites *slop*, not *professionalism* — when in doubt about a single Tier 1 word in otherwise idiosyncratic human writing, leave it.
 
+**Self-reference escape hatch.** When the source text is *about* AI writing (a blog post listing AI tells, a tutorial, a skill file), quoted examples and illustrations are exempt. Text inside quotation marks, code blocks, or explicitly marked as illustrative ("for example, AI might write…") should NOT be rewritten. Only flag patterns in the author's own prose. Without this rule, the skill would mangle every article ever written about AI slop, including its own SKILL.md.
+
 ---
 
 ## Pass 1: Rewrite
@@ -30,7 +32,9 @@ The user can override with "rewrite anyway" if they need polished slop for some 
 - "As previously mentioned...", "As noted above...", "As discussed earlier..."
 - "At the end of the day...", "When it comes to...", "In terms of...", "The fact that..."
 - "In order to..." → "To..."
+- "Due to the fact that..." → "Because..."
 - "I think it's fair to say..." → just say it
+- **"Worth [verb]ing" vague endorsement:** "worth reading," "worth a look," "worth your time," "worth checking out." Substitutes a generic thumbs-up for a specific reason. Say *why* it matters instead.
 
 **Hedge stacking — collapse to one claim or delete:**
 - "may potentially" → "may" or just state it
@@ -51,13 +55,30 @@ The user can override with "rewrite anyway" if they need polished slop for some 
 **Meta-commentary — delete:**
 - "Let me break this down:", "Here's what you need to know:"
 - "In this section, we'll explore...", "Let's take a closer look at..."
+- "Let's dive in," "Let's explore," "Let's break this down" — any "Let's + verb" used as a transition rather than a real invitation.
 - "There are several key factors to consider: First... Second... Third..."
 - Don't announce what you're about to say. Just say it.
+
+**Acknowledgment loops — delete:**
+- "You're asking about…", "To answer your question…", "The question of whether…"
+- AI restates the prompt before answering. The reader knows what they asked. Just answer.
+- Same goes for opening a section by summarizing the previous one. Trust the structure.
+
+**Reasoning chain artifacts — delete:**
+- "Let me think step by step," "First, let's consider," "To approach this systematically," "Step 1:," "Working through this logically."
+- Chain-of-thought scaffolding leaking into prose. The reader doesn't need to see the model's internal monologue. State the conclusion, then the evidence.
+
+**Numbered list inflation — flag:**
+- "Three key takeaways," "Five things to know," "Top 7," "Here are the top ten."
+- AI defaults to numbered lists because they're structurally safe. Only use numbered lists when the content has genuinely that many discrete, parallel items. If you're padding to hit a number, the list shouldn't exist.
 
 **Unearned profundity — delete:**
 - "Something shifted." "Everything changed." "But here's the thing." Narrative-pivot phrases that promise revelation and deliver none.
 - Mid-sentence rhetorical questions: "But now?" "The solution?" "What does this mean?" — usually set up so the AI can answer itself in the next clause.
 - Inspirational closers: "Whatever your X is — start strumming." "Now go and do." "Here's to the ones who…" AI loves ending on a beat. Cut the closer or replace with a concrete next step.
+- **Closing teasers:** "I could go deeper if you want," "Let me know if you'd like more on X." Manipulative engagement-bait suffixes from chat-trained models. Cut.
+- **Magic adverbs** as profundity injectors: "quietly," "gently," "subtly" used to add false depth ("This *quietly* changed everything"). Either show the quietness/subtlety with specifics, or cut the adverb.
+- **Invented concept labels:** "the supervision paradox," "the X principle," "the Y problem nobody's naming." Labeling mundane observations as named paradoxes/principles to sound profound. Either cite a real source for the term or describe the thing without giving it a fake name.
 
 ### Step 2: Kill the LLM vocabulary
 
@@ -92,14 +113,29 @@ Three tiers — a flat ban list creates false positives.
 | unprecedented | (delete, or prove it's actually unprecedented) |
 | bespoke | custom |
 | myriad | many |
+| embark | start, begin |
+| encompass | include, cover, span |
+| elucidate | explain, clarify |
+| juxtapose | compare, contrast |
+| commence | start, begin |
+| ascertain | find out, determine |
+| boasts | has |
+| serves as | is |
+| despite challenges...continues to thrive | (name the challenge and the response, or cut) |
+| the future looks bright | (cut — say something specific or nothing) |
+| only time will tell | (cut — say something specific or nothing) |
+| best practices | what works, proven methods |
+| thought leadership / thought leader | expert, authority (or describe their actual contribution) |
+| key takeaways | findings, conclusions, points |
+| actionable insights | (cut, or name the action) |
 
 **Tier 2: Flag when they cluster.** One use might be fine. Two in a paragraph is a pattern. Three is slop.
 
-landscape, ecosystem, innovative, seamless, cutting-edge, groundbreaking, game-changer, empower, harness, unleash, supercharge, foster, navigate, unlock, elevate, amplify, spearhead, catalyze, nuanced, paramount, invaluable, meticulous, intricate, ever-evolving, plethora, treasure trove, kaleidoscope.
+landscape, ecosystem, innovative, seamless, cutting-edge, groundbreaking, game-changer, empower, harness, unleash, supercharge, foster, navigate, unlock, elevate, amplify, spearhead, catalyze, nuanced, paramount, invaluable, meticulous, intricate, ever-evolving, plethora, treasure trove, kaleidoscope, enhance, optimize, augment, reimagine, revolutionize, underpin, poised, burgeoning, nascent, quintessential, paradigm-shifting, profound.
 
 **Tier 3: Flag only at high density.** Common words that are individually fine but become tells when they pile up. *Threshold:* three or more in a single paragraph, or one per ~75 words across longer text. Below that, leave them alone.
 
-furthermore, moreover, notably, additionally, consequently, accordingly, nevertheless, ultimately, journey (metaphorical), gateway, milestone, linchpin, straightforward, genuinely, honestly, resonate, illuminate.
+furthermore, moreover, notably, additionally, consequently, accordingly, nevertheless, ultimately, thereby, whilst, journey (metaphorical), gateway, milestone, linchpin, straightforward, genuinely, honestly, resonate, illuminate.
 
 ### Step 3: Fix structural patterns
 
@@ -115,6 +151,14 @@ Equally diagnostic as word choice. AI text has structural fingerprints.
 - **Random bolding / italics — strip.** AI bolds words that don't carry the load of the sentence. Remove bolding unless the bolded phrase is genuinely the central claim. Same for italics.
 - **Unicode formatting tricks — convert to plain text.** 𝗯𝗼𝗹𝗱, 𝘪𝘵𝘢𝘭𝘪𝘤, →, ×, ✅/📊/💡 leading bullets. Use real markdown if the surface supports it; otherwise plain ASCII. Decorative Unicode is an AI tell in 99% of professional contexts.
 - **Generic metaphors — cut or anchor.** AI metaphors are plausible but ungrounded ("teaching your fingers to dance," "a puzzle piece clicking into place"). Human metaphors are either *highly specific* (personal experience: "like the time I…") or *culturally resonant* (shared reference). If a metaphor doesn't anchor in either, delete it. Don't replace with another generic one.
+- **Promotional language — replace with plain description.** "Nestled within breathtaking foothills," "a vibrant hub of innovation," "a thriving ecosystem." Tourism-brochure prose. Replace with what the thing actually is: "is a town in the Gonder region," "has 12 startups."
+- **False ranges — cut or list real items.** "From the Big Bang to dark matter," "from ancient civilizations to modern startups," "from healthcare to fintech." Pairs of unrelated extremes that sound sweeping but commit to nothing. List the actual topics covered, or pick the one that matters.
+- **False concession structure — pick a side or specify.** "While X is impressive, Y remains a challenge." "Although the team has made strides, gaps remain." Performative balance with vague halves. Either name the impressive specific and the challenge specific, or pick a side and argue it.
+- **Parenthetical hedging — commit or cut.** "(and, increasingly, Z)," "(or, more precisely, Y)," "(and perhaps more importantly, W)." Asides that sound nuanced without committing. If the aside matters, give it its own sentence. If not, cut it.
+- **Novelty inflation — describe the contribution, don't claim invention.** "He introduced a term," "She coined the phrase," "a failure mode nobody's naming," "the insight everyone's missing." Most ideas are applications of existing concepts, not inventions. Factually risky AND promotional. Replace with what the person actually *did* with the concept, not that they discovered it.
+- **Emotional flatline — show, don't claim.** "What surprised me most…", "I was fascinated to discover…", "What struck me was…", "The most interesting part…", "It hit different." AI claims emotion as structural crutch without conveying it through the writing. If the thing is genuinely surprising, the reader should feel that from the content. Cut the emotional claim or earn it with detail.
+- **Inline-header lists — strip the bold leads.** Lists where each item starts with a bolded keyword that repeats: "**Performance:** Performance improved by…" / "**Speed:** Speed matters because…" Strip the bold header. If the items need headers, they should probably be paragraphs.
+- **Title case in subheadings — use sentence case.** "Strategic Negotiations And Key Partnerships" → "Strategic negotiations and key partnerships." Title case is for the piece's main title at most, not every H2/H3.
 
 ### Step 4: Fix the rhythm
 
@@ -137,6 +181,7 @@ Equally diagnostic as word choice. AI text has structural fingerprints.
 5. **Target 40–60% length reduction.** Under 20% means you didn't cut enough. Over 80% means you lost content. *Exception:* the substance-check void-flag (Step 1) overrides this — if there's nothing concrete to compress, return the void flag, not laundered emptiness.
 6. **Inject specificity where the original was vague.** Cutting slop is necessary but not sufficient. Replace "issues" with "errors and latency spikes." Replace "significant growth" with "30% YoY." Replace "leading provider" with the actual name. *When the source has SOME concrete content but vague spots:* leave the gaps visible rather than invent — flag the vague nouns as slop signals but don't fabricate replacements. *When the source has NO concrete content at all:* fall back to the substance-check void flag from Step 1.
 7. **Prefer numeric constraints over adjectives.** "Three sentences" beats "concise." "Under 100 words" beats "tight." When you instruct yourself or others, use numbers.
+8. **Patch vs. rewrite from scratch.** If the source has 5+ Tier 1 hits across multiple categories, 3+ structural patterns triggered, AND uniform sentence/paragraph rhythm, patching individual phrases won't fix it — the structure itself is AI-generated. State the core point in one sentence, then rebuild from there. Don't try to surgically humanize unsalvageable slop; rewrite it.
 
 ---
 
