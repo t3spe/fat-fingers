@@ -1,0 +1,14 @@
+{
+  "name": "fat-fingers",
+  "owner": {
+    "name": "t3spe"
+  },
+  "plugins": [
+    {
+      "name": "humanize-it",
+      "source": "./plugins/humanize-it",
+      "description": "Rewrite AI-sounding text so it reads like a human wrote it.",
+      "version": "0.1.0"
+    }
+  ]
+}
