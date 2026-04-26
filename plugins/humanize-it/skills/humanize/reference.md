@@ -63,17 +63,39 @@ very, really, truly, literally, actually, just, quite, rather, simply, essential
 
 ---
 
-## Structural patterns: full catalog
+## Structural patterns: supplementary catalog
 
-Beyond the seven structural rules in SKILL.md, the literature identifies several more diagnostic patterns:
+SKILL.md covers the ten primary structural patterns (em dashes, negative parallelisms, rule of three, false agency, copula inflation, significance inflation, rigid scaffolding, random bolding, Unicode formatting, generic metaphors). The literature identifies a few more diagnostic patterns worth knowing about — they're less common than the SKILL.md ten but show up in long-form text:
 
-- **Excessive bullet points.** Bullets for things that are prose. Three-word bullets that should be one sentence.
-- **Rigid intro-body-conclusion scaffolding** for short pieces. A 200-word answer doesn't need a thesis paragraph and a summary.
-- **Meta-commentary about the text itself.** "In this article, we will explore...", "As we'll see...", "In summary..."
-- **Uniformly formal register.** No modulation between casual and formal even when context warrants it. Humans shift; AI averages.
-- **The "elegant variation" tic.** Substituting synonyms purely to avoid repetition ("the company... the firm... the organization... the entity"). Real writers repeat the right word.
+- **The "elegant variation" tic.** Substituting synonyms purely to avoid repetition ("the company... the firm... the organization... the entity"). Real writers repeat the right word when it's the right word.
 - **Symmetric paragraph length.** All paragraphs roughly the same size. Real writers have one-line paragraphs and twelve-line paragraphs in the same piece.
-- **Gratuitous parallel structure.** "We build, we ship, we iterate." LLMs reach for parallelism even when the underlying ideas don't parallel.
+- **Gratuitous parallel structure.** "We build, we ship, we iterate." LLMs reach for parallelism even when the underlying ideas aren't parallel. Different from rule-of-three triplets — this is about syntactic mirroring across consecutive sentences.
+
+---
+
+## Yellow flags: what *not* to flag
+
+Some patterns commonly cited as AI tells aren't reliable on their own. Flagging them mechanically produces false positives and over-corrects human writing.
+
+- **Sophisticated vocabulary alone.** "Delve," "ascertain," "multifaceted" — these are common in professional writing (consulting, academic, legal). One occurrence in a work email is not a tell. A *cluster* with structural patterns is.
+- **Perfect grammar / no typos.** Grammarly is universal in professional contexts. Spell-checked output ≠ AI output.
+- **No contractions.** Could be ESL, formal register, stylistic preference, or institutional voice. Don't expand contractions just to humanize, and don't flag their absence.
+- **A single Tier 1 word in otherwise idiosyncratic prose.** If the writing has voice, opinion, specific anecdotes, or unusual rhythm, leave the word alone. The Tier system is calibrated for *slop*, where the prestige word is one of many tells. In isolation, it's just vocabulary.
+
+The skill's job is to remove the convergence of slop signals. It's not to flatten every piece of writing into the same minimalist register. Professional, formal, or technical writing should stay professional, formal, or technical — just without the AI fingerprints.
+
+---
+
+## Positive prescription: voice and specificity
+
+Charlie Guo's "Field Guide to AI Slop" (Oct 2025) makes the most useful positive observation in the literature: *the best defense against AI slop isn't to police style, it's to cultivate specificity*.
+
+> "My own defense against AI slop isn't to worry too much about style and structure. It's to cultivate specificity: to write things rooted in particular knowledge and tangible experience. To develop a voice and a point of view, and stay as true to them as I can. These are things that AI still struggles to replicate convincingly."
+
+Two implications for the humanize skill:
+
+1. **Specificity > style policing.** A rewrite that adds one concrete number, name, or anecdote does more for human-ness than removing five Tier 1 words. The Step 6 specificity-injection rule in SKILL.md exists for this reason — but it's also a reminder that the skill should *prefer* opportunities to anchor in fact over opportunities to swap synonyms.
+2. **Voice is invariant.** If the source has a strong voice (sarcasm, opinion, specific perspective), preserve it. Don't sand it down toward neutral "human-sounding" prose. Voice is harder to fake than vocabulary.
 
 ---
 
@@ -109,3 +131,4 @@ For practitioners who want to go deeper:
 - **Kobak et al. 2025** — peer-reviewed PubMed frequency baselines.
 - **Juzek & Ward 2024** — "Why Does ChatGPT 'Delve' So Much?" on pre-existing trends.
 - **HxHippy/DeSlop** — open-source Chrome extension, 600+ patterns, runs locally.
+- **Charlie Guo, "The Field Guide to AI Slop"** (*Artificial Ignorance*, Oct 2025) — sources the unearned-profundity, generic-metaphor, and Unicode-formatting rules in SKILL.md; also the "cultivate specificity" positive prescription.
