@@ -71,6 +71,24 @@ Default pass bar is `<25`. The yellow-flag fixture (06) deliberately starts low 
 
 Real-world sample sources: LinkedIn posts, B2B SaaS About pages, Medium tags like #productivity, ChatGPT shared conversations, AI-published Substacks.
 
+## External corpora
+
+For systematic fixture sampling beyond hand-picked examples, `download-corpora.sh` pulls three established AI-text datasets into a gitignored `corpora/` directory.
+
+```bash
+./download-corpora.sh           # download missing files (~1.3 GB total)
+./download-corpora.sh --check   # report what's cached, no downloads
+./download-corpora.sh --force   # re-download everything
+```
+
+| Corpus | Size | What it gives you |
+|---|---|---|
+| **HC3** (Hello-SimpleAI) | 141 MB | 24,322 *paired* human/ChatGPT answers across 5 domains (finance, medicine, open-QA, Reddit ELI5, Wikipedia). Best fit because each AI-side has a human reference. |
+| **RAID test split** (liamdugan) | 1.2 GB | 8.6M LLM generations across 11 models, 11 genres, 4 decoding strategies, 12 adversarial attacks. Unlabeled (it's a leaderboard benchmark) — use the raw `generation` column for sampling. |
+| **slop-forensics** lists | 32 KB | Empirical word/bigram/trigram lists derived from cross-model analysis. Use to audit/enrich the Tier 1/2/3 lists in SKILL.md. Note: list is biased toward creative writing — filter accordingly. |
+
+The download script is idempotent: it skips files that already exist. Safe to re-run after blowing away `corpora/` — it'll rebuild from scratch.
+
 ## Outputs
 
 `outputs/*.out.md` holds the latest rewrite for each fixture. Gitignored — these are session artifacts. Useful for diffing across SKILL.md changes (`git stash` the change, run, save, unstash, run, diff outputs).
