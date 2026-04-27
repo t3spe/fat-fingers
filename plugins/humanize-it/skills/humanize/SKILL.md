@@ -52,6 +52,11 @@ The user can override with "rewrite anyway" if they need polished slop for some 
 - Any compliment about the reader's question or thinking
 - **Forbidden first words:** Great, Certainly, Okay, Sure, Absolutely, Of course. Never start a response with these. (SycEval 2025: 58% of LLM responses contain sycophancy with 78.5% persistence once triggered.)
 
+**Chatbot artifacts — delete entirely:**
+- AI self-references that leak into copy: "As a large language model," "my training data," "I am an AI."
+- Knowledge-cutoff disclaimers: "As of my last update," "While specific details are limited based on available information," "I don't have access to real-time data." Either find the information or remove the hedge — never publish a sentence that admits the writer didn't look something up.
+- Conversational closers from chat interfaces: "I hope this helps!", "Let me know if you'd like me to expand on any section," "Feel free to reach out."
+
 **Meta-commentary — delete:**
 - "Let me break this down:", "Here's what you need to know:"
 - "In this section, we'll explore...", "Let's take a closer look at..."
@@ -79,6 +84,9 @@ The user can override with "rewrite anyway" if they need polished slop for some 
 - **Closing teasers:** "I could go deeper if you want," "Let me know if you'd like more on X." Manipulative engagement-bait suffixes from chat-trained models. Cut.
 - **Magic adverbs** as profundity injectors: "quietly," "gently," "subtly" used to add false depth ("This *quietly* changed everything"). Either show the quietness/subtlety with specifics, or cut the adverb.
 - **Invented concept labels:** "the supervision paradox," "the X principle," "the Y problem nobody's naming." Labeling mundane observations as named paradoxes/principles to sound profound. Either cite a real source for the term or describe the thing without giving it a fake name.
+- **Pseudo-punchlines:** "The result:", "The point is:", "The bottom line:", "The truth is:", "Here's the thing:" — false-punchline framing that promises a payoff and delivers an ordinary statement. Either earn the punchline with setup or just state the claim.
+- **Persuasive authority tropes:** "the real question is," "at its core," "in reality," "fundamentally," "the deeper issue," "the heart of the matter," "what really matters." LLMs use these to *pretend* to cut through noise to deeper truth — but the next sentence usually just restates an ordinary point with extra ceremony. Cut the framing; keep the claim.
+- **Futuristic/scenario invitations:** "Imagine a world where…", "In a world where…", "Picture this:" — fiction-trailer openers used to dress up ordinary observations. Cut or replace with a concrete present-tense example.
 
 ### Step 2: Kill the LLM vocabulary
 
@@ -128,14 +136,33 @@ Three tiers — a flat ban list creates false positives.
 | thought leadership / thought leader | expert, authority (or describe their actual contribution) |
 | key takeaways | findings, conclusions, points |
 | actionable insights | (cut, or name the action) |
+| dive deep / take a deep dive | look at, examine |
+| unveil | show, reveal |
+| shed light on | clarify, explain |
+| in a world where / imagine a world where | (cut — describe the present-tense reality) |
+| as a large language model / my training data | (cut entirely — AI self-reference leak) |
+| esteemed / enlightening | respected, useful |
+| crafting | writing, building, making |
+| skyrocketing / skyrocket | grew sharply, jumped |
+| surpassing | exceeding, beating |
+| garnered | earned, attracted, received |
+| advancements | improvements, progress |
+| aligns with | matches, fits |
+| comprehending | understanding |
+| intricacies | details, complications |
 
 **Tier 2: Flag when they cluster.** One use might be fine. Two in a paragraph is a pattern. Three is slop.
 
-landscape, ecosystem, innovative, seamless, cutting-edge, groundbreaking, game-changer, empower, harness, unleash, supercharge, foster, navigate, unlock, elevate, amplify, spearhead, catalyze, nuanced, paramount, invaluable, meticulous, intricate, ever-evolving, plethora, treasure trove, kaleidoscope, enhance, optimize, augment, reimagine, revolutionize, underpin, poised, burgeoning, nascent, quintessential, paradigm-shifting, profound.
+landscape, ecosystem, innovative, seamless, cutting-edge, groundbreaking, game-changer, empower, harness, unleash, supercharge, foster, navigate, unlock, elevate, amplify, spearhead, catalyze, nuanced, paramount, invaluable, meticulous, intricate, ever-evolving, plethora, treasure trove, kaleidoscope, enhance, optimize, augment, reimagine, revolutionize, underpin, poised, burgeoning, nascent, quintessential, paradigm-shifting, profound, incredible, amazing, fantastic, brilliant, stunning, epic, exciting, remarkable.
 
 **Tier 3: Flag only at high density.** Common words that are individually fine but become tells when they pile up. *Threshold:* three or more in a single paragraph, or one per ~75 words across longer text. Below that, leave them alone.
 
-furthermore, moreover, notably, additionally, consequently, accordingly, nevertheless, ultimately, thereby, whilst, journey (metaphorical), gateway, milestone, linchpin, straightforward, genuinely, honestly, resonate, illuminate.
+furthermore, moreover, notably, additionally, consequently, accordingly, nevertheless, ultimately, thereby, whilst, particularly, across (overused as transition), within (overused as transition), exhibited, journey (metaphorical), gateway, milestone, linchpin, straightforward, genuinely, honestly, resonate, illuminate.
+
+**Tier 3a: Dramatic words and absolutes (flag when hyperbolic).** These get reached for when AI wants to inject false stakes. Fine when literally accurate; problematic when stretched.
+
+- *Dramatic words:* paradox, trap, illusion, magic, destiny, chaos, crisis, explosion, apocalypse, miracle, revolution.
+- *Absolute terms used as filler:* always, never, everything, nothing, completely, entirely, totally — flag when the claim is clearly not absolute. "Always" in "always works" is a tell; "always" in "this function always returns true" is correct.
 
 ### Step 3: Fix structural patterns
 
@@ -159,6 +186,13 @@ Equally diagnostic as word choice. AI text has structural fingerprints.
 - **Emotional flatline — show, don't claim.** "What surprised me most…", "I was fascinated to discover…", "What struck me was…", "The most interesting part…", "It hit different." AI claims emotion as structural crutch without conveying it through the writing. If the thing is genuinely surprising, the reader should feel that from the content. Cut the emotional claim or earn it with detail.
 - **Inline-header lists — strip the bold leads.** Lists where each item starts with a bolded keyword that repeats: "**Performance:** Performance improved by…" / "**Speed:** Speed matters because…" Strip the bold header. If the items need headers, they should probably be paragraphs.
 - **Title case in subheadings — use sentence case.** "Strategic Negotiations And Key Partnerships" → "Strategic negotiations and key partnerships." Title case is for the piece's main title at most, not every H2/H3.
+- **Curly quotation marks — convert to straight.** ChatGPT defaults to "curly" quotes (left and right) instead of "straight" ASCII quotes ("..."). Convert to straight quotes — they don't break copy-paste into code or terminals, and humans typing don't reach for them.
+- **Tailing negation fragments — write as real clauses.** "The options come from the selected item, no guessing." "It just works, no wasted motion." Verbless tag-on negations are a tell. Either fold into the sentence as a real clause ("...without forcing the user to guess") or delete the fragment.
+- **Hyphenated word-pair overuse — strip the hyphens or vary.** AI hyphenates compounds with eerie consistency: "third-party," "cross-functional," "client-facing," "data-driven," "decision-making," "well-known," "real-time," "long-term," "end-to-end," "high-quality." Humans are inconsistent — some hyphenate, some don't, almost never uniformly. If a piece hyphenates every common compound, strip most of them. Keep technical compounds where the hyphen disambiguates.
+- **Fragmented headers — drop the warm-up line.** A heading followed by a single sentence that just restates the heading before the real content begins. *Before:* "## Performance / Speed matters. / When users hit a slow page..." *After:* "## Performance / When users hit a slow page..." The restatement adds nothing.
+- **Dramatic countdown negation — collapse into a real claim.** "Not X. Not Y. Just Z." Distinct from "not just X, but Y" — this is the stair-step variant that builds false tension across multiple short sentences. Replace with a single direct statement of Z, or one short negative clause if the contrast actually matters.
+- **Patronizing analogies — cut "Think of it as…".** "Think of it as a Swiss Army knife for X." "Imagine if your laptop had a personal assistant." Assumes the reader needs simplification they didn't ask for. Either trust the reader or use a precise term — don't substitute a folksy stand-in.
+- **Historical analogy stacking — pick one or none.** "Apple didn't build Uber. Facebook didn't build Spotify. Airbnb didn't build…" Rapid-fire company examples chained for false-authority effect. Pick the single analogy that actually fits the argument, or cut all of them and make the point directly.
 
 ### Step 4: Fix the rhythm
 
@@ -182,6 +216,8 @@ Equally diagnostic as word choice. AI text has structural fingerprints.
 6. **Inject specificity where the original was vague.** Cutting slop is necessary but not sufficient. Replace "issues" with "errors and latency spikes." Replace "significant growth" with "30% YoY." Replace "leading provider" with the actual name. *When the source has SOME concrete content but vague spots:* leave the gaps visible rather than invent — flag the vague nouns as slop signals but don't fabricate replacements. *When the source has NO concrete content at all:* fall back to the substance-check void flag from Step 1.
 7. **Prefer numeric constraints over adjectives.** "Three sentences" beats "concise." "Under 100 words" beats "tight." When you instruct yourself or others, use numbers.
 8. **Patch vs. rewrite from scratch.** If the source has 5+ Tier 1 hits across multiple categories, 3+ structural patterns triggered, AND uniform sentence/paragraph rhythm, patching individual phrases won't fix it — the structure itself is AI-generated. State the core point in one sentence, then rebuild from there. Don't try to surgically humanize unsalvageable slop; rewrite it.
+9. **Never invent.** Do not fabricate personal anecdotes, named people, citations, statistics, or examples that weren't in the source. If the source claims "studies show" without naming the study, do *not* invent a plausible one. Either flag the vague attribution and leave it visible, or cut the claim. Inventing details to humanize is worse than the slop you replaced — it manufactures false authority. Hypothetical examples are allowed only if explicitly framed as hypothetical ("imagine," "suppose").
+10. **Cut quotables.** If a sentence reads like a pull-quote — short, polished, tweetable, designed to be the line in a magazine pull-out — rewrite it. AI defaults to manufacturing aphorisms because RLHF rewards them. Real prose has connective tissue between strong sentences. If everything sounds quotable, nothing does.
 
 ---
 

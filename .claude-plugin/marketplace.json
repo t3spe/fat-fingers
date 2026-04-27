@@ -8,7 +8,7 @@
       "name": "humanize-it",
       "source": "./plugins/humanize-it",
       "description": "Rewrite AI-sounding text so it reads like a human wrote it.",
-      "version": "0.4.0"
+      "version": "0.5.0"
     }
   ]
 }

@@ -175,3 +175,27 @@ If the user follows up with "rewrite anyway," produce the compressed-but-still-e
 > Performance improved 15% across the board. NPS hit 62, up from 51 last quarter. Headcount grew from 40 to 53 — mostly engineering. Two new product lines launched and brought in $2.1M ARR. We took the #2 share position in the SMB segment.
 
 *Rules applied:* title case in subheading ("Strategic Negotiations And Key Partnerships" → sentence case "Q3 review"); numbered list inflation ("Five Key Takeaways" — pre-committed to a count); inline-header lists ("**Performance:** Performance improved…" — bolded keyword that just repeats in the prose); generic adjectives stripped ("significantly," "new highs," "key segments"); specificity injection (15%, 62, 51, 40→53, $2.1M ARR — every vague claim replaced with a number).
+
+---
+
+### Example 14 — anti-fabrication (don't invent details to humanize)
+
+**Before**
+> Studies show that remote workers are 23% more productive than in-office workers. Industry leaders agree that the future of work is hybrid, with experts predicting that 65% of knowledge work will be remote-first by 2030.
+
+**After**
+> Some studies have reported productivity gains for remote workers, but the data is mixed and depends heavily on role and team. The "future of work" framing is contested — *flag the vague attributions; the source named no studies, no leaders, and no expert.*
+
+*Rules applied:* anti-fabrication. The source uses "studies show," "industry leaders agree," and "experts predicting" without naming a single study, leader, or expert. The temptation when humanizing is to *invent* a plausible source ("a 2023 Stanford study by Bloom et al.…") to make the prose feel concrete. **Don't.** Inventing details to humanize is worse than the slop you're replacing — it manufactures false authority. Either flag the vague attributions and leave the gaps visible (as shown), or cut the unsupported claims entirely. Specificity injection only works when the source actually has specifics to surface.
+
+---
+
+### Example 15 — dramatic countdown negation + persuasive authority tropes
+
+**Before**
+> Not a tool. Not a framework. Not a library. A platform. The real question is whether your team can adapt. At its core, what really matters is fundamentally about whether you're ready for the deeper shift in how software gets built.
+
+**After**
+> It's a platform, not a tool, framework, or library. Whether your team can adapt is the question — and that mostly depends on whether the org is willing to change how it ships code.
+
+*Rules applied:* dramatic countdown negation ("Not X. Not Y. Not Z. A W." — collapsed into one direct statement); persuasive authority tropes pile-up ("the real question is," "at its core," "what really matters," "fundamentally," "the deeper shift" — five in two sentences, all stripped); kept the actual claims (it's a platform; team adaptation matters; ships-code is the concrete what).

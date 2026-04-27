@@ -39,6 +39,20 @@ By 2024, ~13.5% of biomedical abstracts (≈200,000 papers) showed signs of LLM 
 
 **Bifurcated adaptation (Human-LLM Coevolution, arXiv 2025).** The arms race is asymmetric. Words that *dropped* after public exposure: "intricate," "realm," "pivotal," "showcasing" (all began declining March-April 2024 once researchers flagged them). Words that *kept rising* despite exposure: "significant," "additionally" — common enough that their presence alone doesn't trigger suspicion. Practical implication: Tier 1 lists are not stable across years; the skill should periodically retire dated tells and add emerging ones.
 
+**Multi-marker clustering is the strongest signal (Kobak deep read).** Phrases like *"meticulously delving into the intricate web"* combine three Tier 1/2 markers in five words. Clustering is an order of magnitude stronger as a tell than three isolated occurrences across a long document. The skill should weight cluster-density above raw count — three Tier 1 words in one clause is almost dispositive; three Tier 1 words across 1000 words might be coincidence.
+
+**Positional context matters (Juzek & Ward 2024).** Experimental finding: "delve" *at sentence-start* triggered measurably more user wariness than mid-sentence "delve." Position is itself a feature. Sentence-initial Tier 1 words deserve more aggressive treatment than mid-clause ones.
+
+**POS distribution shift (Kobak 2024).** 2024 excess vocabulary is **66% verbs and 18% adjectives** — a sharp departure from historical noun-heavy excess vocabulary. When scanning text, verb-heavy slop is now the dominant pattern. If a paragraph's verbs cluster among "delve, leverage, navigate, harness, foster, unleash, elevate," that's stronger evidence than the same number of slop nouns.
+
+**Genre-specific calibration (Kobak 2024).** LLM-text rates vary wildly by venue:
+- Nature / Science / Cell papers: 6–7%
+- MDPI / Frontiers journals: 17%
+- Computational fields: 20%+
+- Sensors (South Korea): 31%
+- Computation papers (China): 35%
+"Easily-detectable LLM usage was negatively correlated with perceived prestige." The skill's strictness should arguably calibrate to context: text claiming to be from a high-prestige venue should be held to a stricter standard than computational-track conference papers.
+
 ---
 
 ## Phrase-frequency multipliers (ai-text-humanizer.com)
@@ -152,6 +166,18 @@ Two implications for the humanize skill:
 **Operational rules already in SKILL.md:**
 - Forbidden first words ("Great," "Certainly," "Okay," "Sure," "Absolutely," "Of course") — catches the most common openers.
 - Anti-sycophancy framing trick (in plugin README): present the work as someone else's, or use a question rather than a statement.
+
+**Citation-based exploitation (UNU 2025).** Domain-specific finding: citation-based rebuttals trigger the *highest* rate of regressive sycophancy. Pre-emptive contradictions (claims made *before* model response) trigger 61.75% sycophancy versus 56.52% for post-response rebuttals. Practical implication: when humanizing text that *contains* counter-claims-with-citations, be especially careful — the model is most likely to have caved to the citation rather than to the truth at that exact moment.
+
+**Expanded mitigation menu (WhyTryAI, Stephen Mwangi).** Beyond the standard tricks, these techniques work in real practice:
+- *Request criticism directly:* "What are the biggest risks and reasons this might fail?"
+- *Multiple-option comparison:* present 2+ alternatives so the model evaluates pros/cons instead of validating a single one.
+- *Forced specificity:* "Rate it out of 10 and walk me through your reasoning" prevents vague praise.
+- *Critical persona adoption:* "You're Gordon Ramsay" naturally authorizes blunt feedback.
+- *Explicit permission to disagree:* "challenge weak reasoning directly," "think independently rather than just being agreeable."
+- *Fresh chat strategy:* start a new conversation for critical feedback; memory features encode past validation patterns.
+
+These are upstream prompt techniques (relevant to plugin README usage tips), not rewrite-pass rules — but they explain why the "frame as someone else's work" trick works.
 
 ---
 
