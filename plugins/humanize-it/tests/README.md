@@ -80,3 +80,10 @@ Real-world sample sources: LinkedIn posts, B2B SaaS About pages, Medium tags lik
 - **Brandonwise is one oracle, not ground truth.** A score of 0 doesn't mean the rewrite is perfect; it means the patterns brandonwise detects aren't there. Always eyeball the outputs.
 - **The plugin is loaded from the local repo** via `--plugin-dir ..`, so the tests run against your working-tree SKILL.md, not the marketplace-installed version. Useful for iterating before you commit + push.
 - **`claude -p` runs cost API quota.** 8 fixtures × 1 invocation each per run.
+- **Rewrites are stochastic.** The same fixture can score 3/100 one run and 32/100 the next, depending on which Tier 1 word the model happens to reach for. If a fixture fails once, re-run before assuming a real regression. If it fails 3+ times in a row, the SKILL.md rule probably needs strengthening.
+
+## Deterministic monotonicity check
+
+The runner enforces one rule deterministically, regardless of what brandonwise scores: **em-dash monotonicity**. If the source has zero em dashes and the rewrite has any, the test fails with `mono: em-dash N→M`. This catches the most common rule-leak — em dashes are the punctuation tell the LLM most often introduces during rewriting, even with the SKILL.md hard rule against it. The runner-level check makes the regression visible and unambiguous.
+
+To extend monotonicity to other tells (Tier 1 words, "not just X but Y" constructions, curly quotes), add similar grep-based checks in `run.sh`.

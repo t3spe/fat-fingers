@@ -11,7 +11,11 @@ For worked before/after examples, see `examples.md`. For the research grounding 
 
 **Yellow flags — don't over-correct.** Some signals look AI-ish but aren't reliable on their own. Sophisticated vocabulary in a professional context (a consultant writing "ascertain the root cause") is just professional vocabulary. Lack of typos likely means Grammarly, not ChatGPT. Lack of contractions might be ESL, formal register, or stylistic choice. Don't strip these unless they cluster with real tells. The skill rewrites *slop*, not *professionalism* — when in doubt about a single Tier 1 word in otherwise idiosyncratic human writing, leave it.
 
+**Monotonicity — never introduce tells the source didn't have.** The rewrite's slop signals should be a *strict subset* of the source's. If the original has zero em dashes, the rewrite has zero — not "one is fine because we're under the per-500-words limit." If the source uses no Tier 1 words, don't reach for one to make a sentence flow better. If the source has no rhetorical questions, don't add one. If the source uses straight quotes, don't introduce curly quotes. The skill *removes* slop; it never *adds* it. Even a "stylistically improved" rewrite that introduces a single new tell is a regression — the source was cleaner. When stuck on a phrasing choice, default to whichever option keeps the rewrite's tell-count at or below the source's.
+
 **Self-reference escape hatch.** When the source text is *about* AI writing (a blog post listing AI tells, a tutorial, a skill file), quoted examples and illustrations are exempt. Text inside quotation marks, code blocks, or explicitly marked as illustrative ("for example, AI might write…") should NOT be rewritten. Only flag patterns in the author's own prose. Without this rule, the skill would mangle every article ever written about AI slop, including its own SKILL.md.
+
+> **HARD RULE — em dashes.** If the source contains **zero** em dashes (—), the rewrite must contain **zero** em dashes. This overrides any other comfort with em dashes and overrides the "max one per 500 words" guideline below. Em dashes are the single most-leaked tell in rewrites — the model's instinct to use them is strong, and you must consciously suppress it. Use periods, semicolons, colons, commas, or parentheses. Before returning *any* rewrite, search the output for `—` characters and replace each one if the source had none.
 
 ---
 
@@ -238,6 +242,7 @@ After rewriting, review against this checklist. If any item fails, fix it before
 11. **Specificity check.** Did you replace at least some vague nouns ("issues," "factors," "things") with concrete ones? If everything is still abstract, the rewrite is incomplete.
 12. **Self-critique question.** Read the output back and ask: *"What would make this obviously AI-generated?"* If you can answer, fix that thing. Repeat until you can't.
 13. **Substance check (re-run).** Does the polished output actually claim anything? If you stripped slop and ended up with smoothly-written nothing, fall back to the empty-content fallback from Step 1. Don't ship laundered emptiness.
+14. **Monotonicity check.** For each tell category (em dashes, Tier 1 words, rhetorical questions, curly quotes, hedges, sycophantic openers, etc.) — does the rewrite contain *more* of it than the source did? If yes, you introduced a regression. The rewrite is allowed to leave existing tells in place (yellow flag), but never to add new ones. Strip any tell that the source didn't have.
 
 ---
 
@@ -246,3 +251,15 @@ After rewriting, review against this checklist. If any item fails, fix it before
 Return only the rewritten text. No preamble ("Here's the condensed version:"), no postamble ("Let me know if you'd like adjustments!"), no meta-commentary. Just the text.
 
 If the user pastes multiple distinct blocks, rewrite each separately and return them in order. If they ask for options, return 2–3 numbered variants, no commentary between them.
+
+**Mandatory pre-return scan (catches the most common regressions of the monotonicity rule):**
+
+Before emitting the rewrite, count these in *both* source and rewrite. If the rewrite has *more* of any of them than the source did, fix the rewrite — don't ship the regression.
+
+1. **Em dashes (—).** Count them. If source has 0 and rewrite has any, replace with periods, commas, or parentheses.
+2. **Tier 1 words.** Did you reach for "delve / leverage / comprehensive / robust / serves as / pivotal / etc." that wasn't in the source? Replace.
+3. **Negative parallelisms.** Did you write "not just X, but Y" / "isn't X — it's Y" when the source had no such construction? Rewrite.
+4. **Curly quotes ("..." vs "...").** If source uses straight ASCII quotes, rewrite must too.
+5. **Sycophantic / forbidden first words.** Rewrite must not start with Great, Certainly, Okay, Sure, Absolutely, Of course (regardless of source).
+
+This scan is non-negotiable. The skill removes slop; it never adds it.

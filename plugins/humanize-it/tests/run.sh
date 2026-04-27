@@ -61,9 +61,22 @@ for fixture in "$FIXTURES_DIR"/$PATTERN; do
 
     delta=$((before - after))
 
-    if (( after < THRESHOLD )); then
+    # Monotonicity check: rewrite must not introduce tells the source didn't have.
+    # Currently checks em dashes (the most common LLM-leak even with the rule in place).
+    # Brace-group + `|| true` defangs grep's exit-1-on-no-match under set -o pipefail.
+    src_em=$(printf "%s" "$text" | { grep -o "—" || true; } | wc -l)
+    out_em=$(printf "%s" "$rewrite" | { grep -o "—" || true; } | wc -l)
+    mono_ok=1
+    if (( out_em > src_em )); then
+        mono_ok=0
+    fi
+
+    if (( after < THRESHOLD )) && (( mono_ok == 1 )); then
         result="✓ pass"
         pass=$((pass + 1))
+    elif (( mono_ok == 0 )); then
+        result="✗ fail (mono: em-dash $src_em→$out_em)"
+        fail=$((fail + 1))
     else
         result="✗ fail (>=$THRESHOLD)"
         fail=$((fail + 1))
