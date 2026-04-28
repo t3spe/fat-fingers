@@ -136,15 +136,23 @@ FIXTURES_DIR=$PWD/samples/hc3 ./run.sh 'finance-*.md'   # one domain
 
 ## Monotonicity checks (deterministic safety net)
 
-Independent of brandonwise's score, the runner enforces three monotonicity rules: the rewrite must not contain *more* of any of these than the source did.
+Independent of brandonwise's score, the runner enforces five monotonicity rules. The rewrite must not contain *more* of any of these than the source did.
 
 | Tell | Pattern | Why it leaks |
 |---|---|---|
 | **em dash** | `—` | LLM defaults to em dash for compound clauses even when source uses periods/commas. |
 | **bold** | `**...**` | LLM converts inline-header colons (`Personal loan:`) into bold bullets, which is a different slop pattern. |
 | **curly quote** | `" " ' '` | LLM defaults to typographic quotes; humans typing rarely reach for them. |
+| **markdown list item** | lines starting with `- `, `* `, or `N. ` | LLM restructures unstructured prose into clean bulleted lists, introducing new structure that wasn't there. Frequent failure on recipes, ingredient lists, instructions. |
+| **leak-phrase** | any phrase from `leak-patterns.txt` | LLM reaches for high-signal Tier 1 words/phrases (delve, leverage, "in terms of", "serves as", etc.) during rewriting that weren't in the source. |
 
-A monotonicity violation always fails the test, regardless of the brandonwise score. To extend (e.g., to Tier 1 word introduction or "not just X but Y" constructions), add a new `count_pat` line in `run.sh`.
+A monotonicity violation always fails the test, regardless of the brandonwise score. The failure result names which check fired and the count delta, e.g. `mono: md-list 4→13`.
+
+### Extending or tuning
+
+- **Add a new pattern check:** add a `src_X` / `out_X` pair in `run.sh` using `count_pat` (regex) or `count_lists`-style helpers, then push onto `mono_violations`.
+- **Edit the leak-phrase list:** `leak-patterns.txt` has one fixed-string pattern per line. Lines starting with `#` are comments. Re-run; no other changes needed.
+- **Loosen the threshold:** if a rule produces too many false positives (e.g., normalizing inconsistent source formatting into consistent bullets), consider replacing the strict `>` comparison with a percentage threshold.
 
 ## Outputs
 

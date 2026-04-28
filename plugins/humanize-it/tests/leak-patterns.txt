@@ -1,0 +1,71 @@
+# Tier 1 phrases the rewrite must not introduce.
+# One pattern per line. Matched as fixed (case-insensitive) substrings.
+# Lines starting with `#` are comments. Blank lines ignored.
+# Used by run.sh monotonicity check: source-vs-rewrite count comparison.
+
+# Tier 1 single words (high-frequency LLM tells per Kobak 2025)
+delve
+delves
+delved
+delving
+leverage
+leveraging
+leveraged
+utilize
+utilized
+utilizing
+facilitate
+facilitates
+facilitating
+comprehensive
+robust
+streamline
+streamlined
+holistic
+synergy
+synergies
+multifaceted
+showcasing
+showcase
+underscores
+underscoring
+tapestry
+realm
+beacon
+cornerstone
+nexus
+interplay
+paradigm
+testament
+pivotal
+transformative
+unprecedented
+bespoke
+myriad
+embark
+embarks
+encompass
+encompassing
+elucidate
+juxtapose
+commence
+ascertain
+boasts
+serves as
+acts as
+functions as
+
+# Tier 1 phrases (Sabrina + others)
+in terms of
+in order to
+due to the fact that
+at the end of the day
+in today's
+when it comes to
+it's worth noting
+it is worth noting
+
+# Negative parallelism
+not just
+not merely
+isn't just

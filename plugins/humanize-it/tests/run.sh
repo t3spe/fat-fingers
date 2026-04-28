@@ -75,17 +75,36 @@ for fixture in "$FIXTURES_DIR"/$PATTERN; do
     # Monotonicity check: rewrite must not introduce tells the source didn't have.
     # Brace-group + `|| true` defangs grep's exit-1-on-no-match under set -o pipefail.
     count_pat() { printf "%s" "$1" | { grep -oE "$2" || true; } | wc -l; }
+    # Count markdown list items (lines starting with -, *, or N.)
+    count_lists() { printf "%s" "$1" | { grep -cE '^\s*([-*]\s|[0-9]+\.\s)' || true; }; }
+    # Count occurrences of leak patterns (case-insensitive fixed strings from leak-patterns.txt)
+    count_leaks() {
+        local patterns_file="$SCRIPT_DIR/leak-patterns.txt"
+        [[ -f "$patterns_file" ]] || { echo 0; return; }
+        # Strip comments + blanks, then count occurrences via grep -Foi
+        local active_patterns
+        active_patterns=$(grep -vE '^\s*(#|$)' "$patterns_file")
+        [[ -z "$active_patterns" ]] && { echo 0; return; }
+        printf "%s" "$1" | { grep -Foi -f <(echo "$active_patterns") || true; } | wc -l
+    }
+
     src_em=$(count_pat "$text" "—")
     out_em=$(count_pat "$rewrite" "—")
     src_bold=$(count_pat "$text" '\*\*[^*]+\*\*')
     out_bold=$(count_pat "$rewrite" '\*\*[^*]+\*\*')
     src_curly=$(count_pat "$text" '[“”‘’]')
     out_curly=$(count_pat "$rewrite" '[“”‘’]')
+    src_lists=$(count_lists "$text")
+    out_lists=$(count_lists "$rewrite")
+    src_leaks=$(count_leaks "$text")
+    out_leaks=$(count_leaks "$rewrite")
 
     mono_violations=()
-    (( out_em > src_em ))      && mono_violations+=("em-dash $src_em→$out_em")
-    (( out_bold > src_bold ))  && mono_violations+=("bold $src_bold→$out_bold")
+    (( out_em > src_em ))       && mono_violations+=("em-dash $src_em→$out_em")
+    (( out_bold > src_bold ))   && mono_violations+=("bold $src_bold→$out_bold")
     (( out_curly > src_curly )) && mono_violations+=("curly-quote $src_curly→$out_curly")
+    (( out_lists > src_lists )) && mono_violations+=("md-list $src_lists→$out_lists")
+    (( out_leaks > src_leaks )) && mono_violations+=("leak-phrase $src_leaks→$out_leaks")
 
     if (( ${#mono_violations[@]} > 0 )); then
         IFS=', '; result="✗ fail (mono: ${mono_violations[*]})"; unset IFS
