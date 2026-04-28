@@ -222,6 +222,7 @@ Equally diagnostic as word choice. AI text has structural fingerprints.
 8. **Patch vs. rewrite from scratch.** If the source has 5+ Tier 1 hits across multiple categories, 3+ structural patterns triggered, AND uniform sentence/paragraph rhythm, patching individual phrases won't fix it — the structure itself is AI-generated. State the core point in one sentence, then rebuild from there. Don't try to surgically humanize unsalvageable slop; rewrite it.
 9. **Never invent.** Do not fabricate personal anecdotes, named people, citations, statistics, or examples that weren't in the source. If the source claims "studies show" without naming the study, do *not* invent a plausible one. Either flag the vague attribution and leave it visible, or cut the claim. Inventing details to humanize is worse than the slop you replaced — it manufactures false authority. Hypothetical examples are allowed only if explicitly framed as hypothetical ("imagine," "suppose").
 10. **Cut quotables.** If a sentence reads like a pull-quote — short, polished, tweetable, designed to be the line in a magazine pull-out — rewrite it. AI defaults to manufacturing aphorisms because RLHF rewards them. Real prose has connective tissue between strong sentences. If everything sounds quotable, nothing does.
+11. **Don't introduce formatting the source didn't have.** Specific application of the monotonicity rule that gets violated most often in practice: if the source is plain prose, the rewrite stays plain prose. Don't add markdown bullets, bolded leads, headers, or any other markup. When *removing* inline-header lists ("Personal loan: ...", "Credit card: ...") or other slop-formatting, the replacement is **prose paragraphs**, not "cleaner" bulleted markdown with bolded headers — bolded bullets are equivalent slop in different clothing. Connect the items with periods, semicolons, "and," or "or." If the source is markdown to begin with, you may keep the structure, but never add bold or bullets that weren't already there.
 
 ---
 
@@ -257,9 +258,11 @@ If the user pastes multiple distinct blocks, rewrite each separately and return 
 Before emitting the rewrite, count these in *both* source and rewrite. If the rewrite has *more* of any of them than the source did, fix the rewrite — don't ship the regression.
 
 1. **Em dashes (—).** Count them. If source has 0 and rewrite has any, replace with periods, commas, or parentheses.
-2. **Tier 1 words.** Did you reach for "delve / leverage / comprehensive / robust / serves as / pivotal / etc." that wasn't in the source? Replace.
-3. **Negative parallelisms.** Did you write "not just X, but Y" / "isn't X — it's Y" when the source had no such construction? Rewrite.
-4. **Curly quotes ("..." vs "...").** If source uses straight ASCII quotes, rewrite must too.
-5. **Sycophantic / forbidden first words.** Rewrite must not start with Great, Certainly, Okay, Sure, Absolutely, Of course (regardless of source).
+2. **Bold (`**...**`).** Count `**...**` spans. If the source has 0 and the rewrite has any, strip the bold. The most common leak: when removing inline-header lists like "Personal loan:", the rewrite restructures into bolded bullets like "**Personal loan.**" — that's a different slop pattern, not a fix. Output prose paragraphs instead.
+3. **Markdown bullet lists (`- ` / `* ` / `1. `).** If the source is plain prose with no bullets, the rewrite must not introduce bullets. Use sentences and connectors, not lists.
+4. **Tier 1 words.** Did you reach for "delve / leverage / comprehensive / robust / serves as / pivotal / etc." that wasn't in the source? Replace.
+5. **Negative parallelisms.** Did you write "not just X, but Y" / "isn't X — it's Y" when the source had no such construction? Rewrite.
+6. **Curly quotes ("..." vs "...").** If source uses straight ASCII quotes, rewrite must too.
+7. **Sycophantic / forbidden first words.** Rewrite must not start with Great, Certainly, Okay, Sure, Absolutely, Of course (regardless of source).
 
 This scan is non-negotiable. The skill removes slop; it never adds it.

@@ -28,8 +28,8 @@ extract_score() {
 }
 
 # Header
-printf "%-32s | %6s | %6s | %6s | %s\n" "fixture" "before" "after" "delta" "result"
-printf "%-32s-+-%6s-+-%6s-+-%6s-+-%s\n" "$(printf -- '-%.0s' {1..32})" "------" "------" "------" "--------"
+printf "%-40s | %6s | %6s | %6s | %6s | %s\n" "fixture" "before" "after" "human" "delta" "result"
+printf "%-40s-+-%6s-+-%6s-+-%6s-+-%6s-+-%s\n" "$(printf -- '-%.0s' {1..40})" "------" "------" "------" "------" "--------"
 
 pass=0
 fail=0
@@ -47,13 +47,21 @@ for fixture in "$FIXTURES_DIR"/$PATTERN; do
     # Score original
     before=$(printf "%s" "$text" | "$HUMANIZER" score 2>/dev/null | extract_score)
 
+    # Score human reference if a sidecar exists (HC3-style paired data)
+    human_score="-"
+    human_path="${fixture%.md}.human.md"
+    if [[ -f "$human_path" ]]; then
+        human_score=$(cat "$human_path" | "$HUMANIZER" score 2>/dev/null | extract_score)
+        [[ -z "$human_score" ]] && human_score="-"
+    fi
+
     # Get rewrite via headless Claude Code (load plugin from local repo)
     rewrite=$("$CLAUDE" --plugin-dir "$PLUGIN_DIR" -p "/humanize-it:humanize $text" 2>/dev/null | sed -e '/^$/d' || true)
     printf "%s\n" "$rewrite" > "$OUTPUTS_DIR/$name.out.md"
 
     # Special case: void flag
     if [[ "$rewrite" == *"(no substantive content"* ]]; then
-        printf "%-32s | %6s | %6s | %6s | %s\n" "$name" "$before" "void" "—" "✓ void-flag"
+        printf "%-40s | %6s | %6s | %6s | %6s | %s\n" "$name" "$before" "void" "$human_score" "—" "✓ void-flag"
         void=$((void + 1))
         continue
     fi
@@ -90,7 +98,7 @@ for fixture in "$FIXTURES_DIR"/$PATTERN; do
         fail=$((fail + 1))
     fi
 
-    printf "%-32s | %6s | %6s | %+6d | %s\n" "$name" "$before" "$after" "$delta" "$result"
+    printf "%-40s | %6s | %6s | %6s | %+6d | %s\n" "$name" "$before" "$after" "$human_score" "$delta" "$result"
 done
 
 echo ""

@@ -116,7 +116,12 @@ samples/
     └── ...
 ```
 
-HC3 samples ship with a `.human.md` sidecar — the same prompt's human-written answer. The runner skips `.human.md` files automatically. Future enhancement: paired comparison (e.g., embedding cosine similarity rewrite-vs-human as an additional metric).
+HC3 samples ship with a `.human.md` sidecar — the same prompt's human-written answer. The runner skips `.human.md` files automatically and *also* scores them, surfacing a `human` column in the output for paired comparison. Useful interpretations:
+
+- `human ≈ 0`, `after ≈ 0` — both rewrite and reference are clean. Skill matched human quality.
+- `human ≈ 0`, `after >> 0` — skill produced something more AI-like than the human reference. Worth inspecting.
+- `human >> 0`, `after ≈ 0` — skill produced something *cleaner than the human reference*. Often happens when the Reddit/forum human reference is itself stylistically slop-y. (Brandonwise scores text, not authorship.)
+- `human` column shows `-` when no sidecar exists (e.g., curated fixtures and RAID).
 
 ### Running the runner against samples
 

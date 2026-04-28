@@ -36,4 +36,4 @@ Or paste AI-sounding text into a normal message and ask Claude to humanize it �
 
 ## Version
 
-`0.5.1` — see [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).
+`0.5.2` — see [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).
