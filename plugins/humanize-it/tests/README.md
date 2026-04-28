@@ -89,6 +89,58 @@ For systematic fixture sampling beyond hand-picked examples, `download-corpora.s
 
 The download script is idempotent: it skips files that already exist. Safe to re-run after blowing away `corpora/` — it'll rebuild from scratch.
 
+### Sampling fixtures from corpora
+
+Once `corpora/` is populated, `sample-corpora.py` draws random fixtures into `samples/` (also gitignored).
+
+```bash
+./sample-corpora.py                     # default: 2 HC3/domain (10 total) + 10 RAID, seed=42
+./sample-corpora.py --hc3 5 --raid 30   # bigger sample
+./sample-corpora.py --seed 123          # different draw
+./sample-corpora.py --clean             # wipe samples/ before sampling
+```
+
+Output structure:
+
+```
+samples/
+├── hc3/
+│   ├── finance-01-<question-slug>.md           ← AI side (the slop)
+│   ├── finance-01-<question-slug>.human.md     ← human reference
+│   ├── medicine-01-<question-slug>.md
+│   ├── medicine-01-<question-slug>.human.md
+│   └── ...
+└── raid/
+    ├── raid-001.md
+    ├── raid-002.md
+    └── ...
+```
+
+HC3 samples ship with a `.human.md` sidecar — the same prompt's human-written answer. The runner skips `.human.md` files automatically. Future enhancement: paired comparison (e.g., embedding cosine similarity rewrite-vs-human as an additional metric).
+
+### Running the runner against samples
+
+`run.sh` reads `FIXTURES_DIR` from the environment, defaulting to `fixtures/`:
+
+```bash
+./run.sh                                 # curated regression (default)
+FIXTURES_DIR=$PWD/samples/hc3 ./run.sh   # all HC3 samples
+FIXTURES_DIR=$PWD/samples/raid ./run.sh  # all RAID samples
+FIXTURES_DIR=$PWD/samples/hc3 ./run.sh 'finance-*.md'   # one domain
+```
+
+## Monotonicity checks (deterministic safety net)
+
+Independent of brandonwise's score, the runner enforces three monotonicity rules: the rewrite must not contain *more* of any of these than the source did.
+
+| Tell | Pattern | Why it leaks |
+|---|---|---|
+| **em dash** | `—` | LLM defaults to em dash for compound clauses even when source uses periods/commas. |
+| **bold** | `**...**` | LLM converts inline-header colons (`Personal loan:`) into bold bullets, which is a different slop pattern. |
+| **curly quote** | `" " ' '` | LLM defaults to typographic quotes; humans typing rarely reach for them. |
+
+A monotonicity violation always fails the test, regardless of the brandonwise score. To extend (e.g., to Tier 1 word introduction or "not just X but Y" constructions), add a new `count_pat` line in `run.sh`.
+
 ## Outputs
 
 `outputs/*.out.md` holds the latest rewrite for each fixture. Gitignored — these are session artifacts. Useful for diffing across SKILL.md changes (`git stash` the change, run, save, unstash, run, diff outputs).

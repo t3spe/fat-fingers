@@ -7,7 +7,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_DIR="$(dirname "$SCRIPT_DIR")"
-FIXTURES_DIR="$SCRIPT_DIR/fixtures"
+# Override which fixture set to score: FIXTURES_DIR=samples/hc3 ./run.sh
+FIXTURES_DIR="${FIXTURES_DIR:-$SCRIPT_DIR/fixtures}"
 OUTPUTS_DIR="$SCRIPT_DIR/outputs"
 HUMANIZER="${HUMANIZER:-humanizer}"
 CLAUDE="${CLAUDE:-claude}"
@@ -37,6 +38,8 @@ total=0
 
 for fixture in "$FIXTURES_DIR"/$PATTERN; do
     [[ -f "$fixture" ]] || continue
+    # Skip .human.md sidecars (HC3 reference answers — not meant to be rewritten)
+    [[ "$fixture" == *.human.md ]] && continue
     total=$((total + 1))
     name=$(basename "$fixture" .md)
     text=$(cat "$fixture")
@@ -62,21 +65,26 @@ for fixture in "$FIXTURES_DIR"/$PATTERN; do
     delta=$((before - after))
 
     # Monotonicity check: rewrite must not introduce tells the source didn't have.
-    # Currently checks em dashes (the most common LLM-leak even with the rule in place).
     # Brace-group + `|| true` defangs grep's exit-1-on-no-match under set -o pipefail.
-    src_em=$(printf "%s" "$text" | { grep -o "—" || true; } | wc -l)
-    out_em=$(printf "%s" "$rewrite" | { grep -o "—" || true; } | wc -l)
-    mono_ok=1
-    if (( out_em > src_em )); then
-        mono_ok=0
-    fi
+    count_pat() { printf "%s" "$1" | { grep -oE "$2" || true; } | wc -l; }
+    src_em=$(count_pat "$text" "—")
+    out_em=$(count_pat "$rewrite" "—")
+    src_bold=$(count_pat "$text" '\*\*[^*]+\*\*')
+    out_bold=$(count_pat "$rewrite" '\*\*[^*]+\*\*')
+    src_curly=$(count_pat "$text" '[“”‘’]')
+    out_curly=$(count_pat "$rewrite" '[“”‘’]')
 
-    if (( after < THRESHOLD )) && (( mono_ok == 1 )); then
+    mono_violations=()
+    (( out_em > src_em ))      && mono_violations+=("em-dash $src_em→$out_em")
+    (( out_bold > src_bold ))  && mono_violations+=("bold $src_bold→$out_bold")
+    (( out_curly > src_curly )) && mono_violations+=("curly-quote $src_curly→$out_curly")
+
+    if (( ${#mono_violations[@]} > 0 )); then
+        IFS=', '; result="✗ fail (mono: ${mono_violations[*]})"; unset IFS
+        fail=$((fail + 1))
+    elif (( after < THRESHOLD )); then
         result="✓ pass"
         pass=$((pass + 1))
-    elif (( mono_ok == 0 )); then
-        result="✗ fail (mono: em-dash $src_em→$out_em)"
-        fail=$((fail + 1))
     else
         result="✗ fail (>=$THRESHOLD)"
         fail=$((fail + 1))
