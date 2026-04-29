@@ -9,6 +9,12 @@
       "source": "./plugins/humanize-it",
       "description": "Rewrite AI-sounding text so it reads like a human wrote it.",
       "version": "0.5.2"
+    },
+    {
+      "name": "slackify-it",
+      "source": "./plugins/slackify-it",
+      "description": "Rewrite text into a Slack-appropriate message. Strips email scaffolding, converts markdown to Slack flavor, trims for chat.",
+      "version": "0.1.0"
     }
   ]
 }

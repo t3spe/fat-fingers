@@ -25,6 +25,7 @@ Update later with:
 | Plugin | What it does |
 |---|---|
 | [`humanize-it`](./plugins/humanize-it) | Rewrite AI-sounding text so it reads like a human wrote it. |
+| [`slackify-it`](./plugins/slackify-it) | Rewrite text into a Slack-appropriate message. |
 
 ## License
 

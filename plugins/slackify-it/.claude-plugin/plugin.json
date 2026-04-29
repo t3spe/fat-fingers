@@ -1,0 +1,8 @@
+{
+  "name": "slackify-it",
+  "description": "Rewrite text into a Slack-appropriate message. Strips email-style scaffolding, converts markdown to Slack's flavor, and adjusts tone for chat.",
+  "version": "0.1.0",
+  "author": {
+    "name": "t3spe"
+  }
+}
