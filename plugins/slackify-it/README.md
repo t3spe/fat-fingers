@@ -38,6 +38,11 @@ Or paste any email / writeup / AI response into a normal message and ask "slacki
 
 - **`humanize-it`** (sibling plugin in this marketplace) — if your source is AI-sounding *and* needs to go in Slack, run humanize-it first to strip the slop, then slackify-it to format for chat.
 
+## What's inside
+
+- [`skills/slackify/SKILL.md`](./skills/slackify/SKILL.md) — operational rules (8-step pipeline, length targets, mention semantics, Slack hard constraints)
+- [`skills/slackify/reference.md`](./skills/slackify/reference.md) — research grounding: Slack mrkdwn spec, empirical length data, prior-art credits (deterministic converters, LLM message generators, best-practice guides)
+
 ## Version
 
-`0.1.0` — see [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).
+`0.2.0` — see [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).

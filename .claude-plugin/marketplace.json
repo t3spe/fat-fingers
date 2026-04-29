@@ -14,7 +14,7 @@
       "name": "slackify-it",
       "source": "./plugins/slackify-it",
       "description": "Rewrite text into a Slack-appropriate message. Strips email scaffolding, converts markdown to Slack flavor, trims for chat.",
-      "version": "0.1.0"
+      "version": "0.2.0"
     }
   ]
 }
